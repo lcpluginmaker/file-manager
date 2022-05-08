@@ -1,18 +1,18 @@
 {
   "manifestVersion": 2.1,
-  "packageName": "plugin-template",
+  "packageName": "file-manager",
   "packageVersion": "0.0.1",
   "build": {
-    "command": "dotnet",
-    "args": ["build", "--nologo"],
+    "command": "sh",
+    "args": ["./build.sh"],
     "folder": ".",
-    "dlls": ["PluginTemplate.dll"],
+    "dlls": ["file-manager.dll"],
     "share": "./share"
   },
   "project": {
-    "maintainer": "-",
-    "email": "-",
-    "homepage": "-",
-    "bugTracker": "-"
+    "maintainer": "alexcoder04",
+    "email": "alexcoder04@protonmail.com",
+    "homepage": "https://github.com/alexcoder04/LeoConsole-file-manager",
+    "bugTracker": "https://github.com/alexcoder04/LeoConsole-file-manager/issues"
   }
 }

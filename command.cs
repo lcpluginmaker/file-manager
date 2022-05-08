@@ -1,27 +1,43 @@
+using System.Diagnostics;
 using System.IO;
 using ILeoConsole;
 using ILeoConsole.Plugin;
 using ILeoConsole.Core;
 
-namespace LeoConsole_PluginTemplate
+namespace LeoConsole_FileManager
 {
-  // ----- your command -----
-  // TODO: change this to your plugin name
-  public class PluginTemplateCommand : ICommand
+  public class FileManager : ICommand
   {
-    // TODO: change these to your command name and description
-    public string Name { get { return "plugin-template-test"; } } // this what you type into the console to run the command
-    public string Description { get { return "test plugin template"; } } // this is the description in the help command
+    public string Name { get { return "fm"; } }
+    public string Description { get { return "tui file manager"; } }
     public Action CommandFunktion { get { return () => Command(); } }
     private string[] _InputProperties;
     public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
     public IData data = new ConsoleData();
-    private LConsole lconsole = new LConsole();
 
-    // --- this is what actually runs ---
     public void Command()
     {
-      lconsole.WriteLine("§aHello world!§r"); // colored hello world
+      RunProcess(
+          Path.Join(data.SavePath, "share", "scripts", "lf"),
+          "",
+          data.SavePath
+          );
+    }
+
+    // run a process with parameters and wait for it to finish
+    public void RunProcess(string name, string args, string pwd)
+    {
+      try {
+        Process p = new Process();
+        p.StartInfo.FileName = name;
+        p.StartInfo.Arguments = args;
+        p.StartInfo.WorkingDirectory = pwd;
+        p.Start();
+        p.WaitForExit();
+      } catch (Exception e) {
+        Console.WriteLine("error running binary " + e.Message);
+        return;
+      }
     }
   }
 }
