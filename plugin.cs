@@ -21,7 +21,7 @@ namespace LeoConsole_FileManager
   public class FileManagerPlugin : IPlugin
   {
     public string Name { get { return "file-manager"; } }
-    public string Explanation { get { return "tui file manager"; } }
+    public string Explanation { get { return "TUI file manager"; } }
     
     private IData _data;
     public IData data { get { return _data; } set { _data = value; } }

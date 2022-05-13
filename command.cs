@@ -9,7 +9,7 @@ namespace LeoConsole_FileManager
   public class FileManager : ICommand
   {
     public string Name { get { return "fm"; } }
-    public string Description { get { return "tui file manager"; } }
+    public string Description { get { return "TUI file manager"; } }
     public Action CommandFunktion { get { return () => Command(); } }
     private string[] _InputProperties;
     public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
@@ -27,14 +27,17 @@ namespace LeoConsole_FileManager
     // run a process with parameters and wait for it to finish
     public void RunProcess(string name, string args, string pwd)
     {
-      try {
+      try
+      {
         Process p = new Process();
         p.StartInfo.FileName = name;
         p.StartInfo.Arguments = args;
         p.StartInfo.WorkingDirectory = pwd;
         p.Start();
         p.WaitForExit();
-      } catch (Exception e) {
+      }
+      catch (Exception e)
+      {
         Console.WriteLine("error running binary " + e.Message);
         return;
       }
