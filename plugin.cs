@@ -32,8 +32,11 @@ namespace LeoConsole_FileManager
     public void PluginInit()
     {
       _data = new ConsoleData();
-      
       _Commands = new List<ICommand>();
+    }
+
+    public void RegisterCommands()
+    {
       _Commands.Add(new FileManager());
     }
 

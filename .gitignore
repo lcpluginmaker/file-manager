@@ -3,5 +3,5 @@ Debug
 obj
 *.exe
 *.dll
-*.lcpkg
+*.lcp
 share/scripts

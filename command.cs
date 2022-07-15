@@ -1,8 +1,9 @@
+using ILeoConsole.Core;
+using ILeoConsole.Plugin;
+using ILeoConsole;
 using System.Diagnostics;
 using System.IO;
-using ILeoConsole;
-using ILeoConsole.Plugin;
-using ILeoConsole.Core;
+using System.Runtime.InteropServices;
 
 namespace LeoConsole_FileManager
 {
@@ -10,22 +11,51 @@ namespace LeoConsole_FileManager
   {
     public string Name { get { return "fm"; } }
     public string Description { get { return "TUI file manager"; } }
-    public Action CommandFunktion { get { return () => Command(); } }
-    private string[] _InputProperties;
-    public string[] InputProperties { get { return _InputProperties; } set { _InputProperties = value; } }
+    public Action CommandFunction { get { return () => Command(); } }
+    public Action HelpFunction { get { return () => Console.WriteLine("not available"); } }
+    private string[] _Arguments;
+    public string[] Arguments { get { return _Arguments; } set { _Arguments = value; } }
     public IData data = new ConsoleData();
 
     public void Command()
     {
-      RunProcess(
-          Path.Join(data.SavePath, "share", "scripts", "lf"),
-          "",
-          data.SavePath
-          );
+      RunProcess(GetLfPath(), $"-config {data.SavePath}/share/file-manager/lfrc", data.SavePath);
+    }
+
+    // get lf binary path
+    private string GetLfPath()
+    {
+      string basePath = Path.Join(data.SavePath, "share", "scripts");
+      if (GetRunningOS() == "lnx64") {
+        string path = Path.Join(basePath, "lf");
+        if (File.Exists(path)) {
+          return path;
+        }
+        throw new Exception("builder binary not found");
+      }
+      if (GetRunningOS() == "win64") {
+        string path = Path.Join(basePath, "lf.exe");
+        if (File.Exists(path)) {
+          return path;
+        }
+        throw new Exception("builder binary not found");
+      }
+      throw new Exception("unknown OS");
+    }
+
+    // get OS
+    private string GetRunningOS() {
+      if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
+        return "win64";
+      }
+      if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)) {
+        return "lnx64";
+      }
+      return "other";
     }
 
     // run a process with parameters and wait for it to finish
-    public void RunProcess(string name, string args, string pwd)
+    private void RunProcess(string name, string args, string pwd)
     {
       try
       {

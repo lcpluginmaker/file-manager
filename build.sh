@@ -8,22 +8,26 @@ mkdir -vp "$CACHE_DIR" || exit 1
 # build plugin dll
 dotnet build --nologo || exit 1
 
-# clone lf
-cd "$CACHE_DIR"
-if [ ! -d "./lf" ]; then
-  git clone "https://github.com/gokcehan/lf.git"
-fi
+# download lf
+base_dl_url="https://github.com/gokcehan/lf/releases/latest/download"
 
-# build lf
-cd "./lf"
+get_lf_linux(){
+  temp_file="$CACHE_DIR/lf.tar.gz"
+  wget -nv -O "$temp_file" "$base_dl_url/lf-linux-amd64.tar.gz" || exit 1
+  tar xzf "$temp_file" || exit 1
+  cp -v "./lf" "$PROJECT_FOLDER/share/scripts/lf" || exit 1
+}
+
+get_lf_windows(){
+  temp_file="$CACHE_DIR/lf.zip"
+  wget -nv -O "$temp_file" "$base_dl_url/lf-windows-amd64.zip" || exit 1
+  unzip "$temp_file" || exit 1
+  cp -v "./lf.exe" "$PROJECT_FOLDER/share/scripts/lf.exe" || exit 1
+}
+
 case "$APKG_BUILDER_OS" in
-  lnx64) export GOOS="linux"; export GOARCH="amd64"; OUT="lf" ;;
-  win64) export GOOS="windows"; export GOARCH="amd64"; OUT="lf.exe" ;;
-  *) export GOOS="linux"; export GOARCH="amd64"; OUT="lf" ;;
+  lnx64) get_lf_linux ;;
+  win64) get_lf_windows ;;
+  *) get_lf_linux ;;
 esac
-go build . || exit 1
-cd "$PROJECT_FOLDER"
-
-# copy lf binary
-cp -v "$CACHE_DIR/lf/$OUT" "$PROJECT_FOLDER/share/scripts/$OUT"
 

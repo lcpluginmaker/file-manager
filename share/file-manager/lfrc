@@ -1,0 +1,19 @@
+
+set drawbox   # draw borders
+set info size # show file sizes
+set incsearch # search as you are typing
+set incfilter # filter as you are typingr
+set preview   # preview files on the right side
+
+# prompt at the top
+set promptfmt "\033[36mLeoConsole File Manager\033[0m - Powered by \033[33mLF\033[0m (github.com/gokcehan/lf)"
+# panes ratio
+set ratios 1:2:3
+
+# move in upper directories
+map J :push hjl
+map K :push hkl
+
+# Vim-style ":q" exit
+cmd q :quit
+
