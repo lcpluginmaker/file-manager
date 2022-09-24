@@ -1,10 +1,11 @@
 {
-  "manifestVersion": 3.0,
+  "manifestVersion": 4.0,
   "packageName": "file-manager",
-  "packageVersion": "0.0.1",
+  "packageVersion": "0.1.0",
   "depends": [],
-  "compatibleVersions": ["2.1.0"],
+  "compatibleVersions": ["2.2.0"],
   "build": {
+    "create": ["share/scripts"],
     "command": "sh",
     "args": ["./build.sh"],
     "folder": ".",
@@ -14,7 +15,7 @@
   "project": {
     "maintainer": "alexcoder04",
     "email": "alexcoder04@protonmail.com",
-    "homepage": "https://github.com/alexcoder04/LeoConsole-file-manager",
-    "bugTracker": "https://github.com/alexcoder04/LeoConsole-file-manager/issues"
+    "homepage": "https://github.com/lcpluginmaker/file-manager",
+    "bugTracker": "https://github.com/lcpluginmaker/file-manager/issues"
   }
 }
